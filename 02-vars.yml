@@ -1,7 +1,7 @@
 - name: Play level variables
   hosts: all
   vars:
-    URL: ply.example.com
+    URL: play.example.com
   tasks:
     - name: print URL
       ansible.builtin.debug:
@@ -16,3 +16,13 @@
     - name: print URL
       ansible.builtin.debug:
         msg: URL={{URL}}
+
+- name: task level variables
+  hosts: all
+  tasks:
+    - name: print URL
+      ansible.builtin.debug:
+        msg: URL= {{URL}}
+      vars:
+        URL: hosts.example.com
+
