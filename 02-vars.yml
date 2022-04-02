@@ -13,9 +13,12 @@
   vars_files:
     - sample-vars.yml
   tasks:
-    - name: print URL DEMO
+    - name: print URL
       ansible.builtin.debug:
-        msg: URL={{URL}} DEMO={{DEMO}}
+        msg: URL={{URL}}
+    - name: print DEMO
+      ansible.builtin.debug:
+        msg: DEMO={{DEMO}}
 
 - name: task level variables
   hosts: all
