@@ -1,5 +1,4 @@
 - name: Play in role
   hosts: all
-  ansible.builtin.debug:
-    roles:
-      - demo
+  roles:
+    - demo
