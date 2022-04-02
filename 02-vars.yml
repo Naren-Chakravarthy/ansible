@@ -33,8 +33,8 @@
 - name: inventory level variables
   hosts: all
   tasks:
-    - name: print URL
+    - name: print Website
       ansible.builtin.debug:
-        msg: URL={{URL}}
+        msg: Website={{website}}
 
 
