@@ -37,4 +37,10 @@
       ansible.builtin.debug:
         msg: Website={{website}}
 
+- name: Fact variables
+  hosts: all
+  tasks:
+    - name: print host name
+      ansible.builtin.debug:
+        msg: Architecture = {{ansible_architecture}}, IP Address = {{ansible_eth0.ipv4.address}}
 
