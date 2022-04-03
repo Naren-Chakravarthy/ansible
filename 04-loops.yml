@@ -1,19 +1,19 @@
 - name: demo on loops
   hosts: localhost
   tasks:
-    - name: print fruit name
+    - name: Print Fruit Name
       debug:
-        msg: fruit name = {{item}}
+        msg: Fruit Name = {{item}}
       loop:
         - apple
         - mango
         - orange
 
-    - name: print fruit name and inventory count
-        debug:
-          msg: fruit name = {{item.name}} , available count = {{item.count}}
-          loop:
-            - {name: apple, count: 10}
-            - {name: mango, count: 20}
-            - {name: orange, count: 30}
+    - name: Print Fruit Name and Inventory Count
+      debug:
+        msg: Fruit Name = {{item.name}} , Available Count = {{item.count}}
+      loop:
+        - {name: apple, count: 10}
+        - {name: mango, count: 20}
+        - {name: orange, count: 30}
 
