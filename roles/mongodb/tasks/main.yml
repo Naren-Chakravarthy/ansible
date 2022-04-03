@@ -1,5 +1,5 @@
 - name: Download and extract the mongodb content
-  ansible.builtin.unarchieve:
+  ansible.builtin.unarchive:
     src: https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo
     dest: /etc/yum.repos.d/mongodb.repo
     remote_src: yes
@@ -8,4 +8,3 @@
   ansible.builtin.yum:
     name: mongodb
     state: installed
-    
