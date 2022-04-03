@@ -10,7 +10,7 @@
         - orange
     - name: print fruit name and inventory count
         ansible.builtin.debug:
-          msg: fruit name = {{item.name}}, inventory count = {{item.count}}
+          msg: fruit name = {{item.name}} , inventory count = {{item.count}}
           loop:
             - {name: apple, count: 10}
             - {name: mango, count: 20}
