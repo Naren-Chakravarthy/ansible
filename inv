@@ -1,6 +1,6 @@
 [FRONTEND]
-frontend.roboshop.internal
+frontend.roboshop.internal role_name=catalogue
 [MONGODB]
-mongodb.roboshop.internal
+mongodb.roboshop.internal role_name=mongodb
 [CATALOGUE]
-catalogue.roboshop.internal
+catalogue.roboshop.internal rloe_name=catalogue
