@@ -1,4 +1,4 @@
 [FRONTEND]
 frontend.roboshop.internal
 [MONGODB]
-mongodb.roboshop.internal
+172.31.27.4
