@@ -2,14 +2,14 @@
   hosts: local host
   tasks:
     - name: print fruit name
-      ansible.builtin.debug:
+      debug:
         msg: fruit name = {{item}}
-      loops:
+      loop:
         - apple
         - mango
         - orange
     - name: print fruit name and inventory count
-        ansible.builtin.debug:
+        debug:
           msg: fruit name = {{item.name}} , inventory count = {{item.count}}
           loop:
             - {name: apple, count: 10}
