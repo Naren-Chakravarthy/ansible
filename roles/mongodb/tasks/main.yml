@@ -1,10 +1,16 @@
-- name: Download and extract the mongodb content
-  ansible.builtin.unarchive:
-    src: https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo
+- name: Copy mongodb repos
+  ansible.builtin.copy:
+    src: mongodb.repo
     dest: /etc/yum.repos.d/mongodb.repo
-    remote_src: yes
 
 - name: Install Mongodb
   ansible.builtin.yum:
-    name: mongodb
+    name: mongodb-org
     state: installed
+
+- name: Update Mongodb configuration - Update listen IP address
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
