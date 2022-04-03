@@ -1,5 +1,5 @@
 - name: demo on loops
-  hosts: local host
+  hosts: localhost
   tasks:
     - name: print fruit name
       debug:
