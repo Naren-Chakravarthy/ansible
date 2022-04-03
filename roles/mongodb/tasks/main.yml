@@ -3,3 +3,9 @@
     src: https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo
     dest: /etc/yum.repos.d/mongodb.repo
     remote_src: yes
+
+- name: Install Mongodb
+  ansible.builtin.yum:
+    name: mongodb
+    state: installed
+    
