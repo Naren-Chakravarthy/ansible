@@ -20,7 +20,7 @@
     state: started
     enabled: yes
 
-- name: Download and Extract Mongodb
+- name: Download and Extract {{COMPONENT}} content
   include_role:
     name: common
     tasks_from: download
