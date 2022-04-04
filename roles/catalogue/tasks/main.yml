@@ -69,7 +69,7 @@
     state: absent
 
 - name: Copy the app content
-    ansible.builtin.copy:
-      src: /tmp/catalogue-main/
-      dest: /home/roboshop/catalogue/
-      remote_src: yes
+  ansible.builtin.copy:
+    src: /tmp/catalogue-main/
+    dest: /home/roboshop/catalogue/
+    remote_src: yes
