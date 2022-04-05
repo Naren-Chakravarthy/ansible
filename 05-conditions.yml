@@ -35,4 +35,4 @@
     - name: boolean operations
       ansible.builtin.debug:
         msg: D is False
-      when: d
+      when: not d
