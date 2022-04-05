@@ -6,4 +6,4 @@
     - name: condition on strings
       ansible.builtin.debug:
         msg: strings contion is true
-      when: a == abc
+      when: a == 'abc'
