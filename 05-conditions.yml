@@ -3,7 +3,11 @@
   vars:
     a: abc
   tasks:
-    - name: condition on strings
+    - name: condition on strings1
       ansible.builtin.debug:
         msg: strings contion is true
       when: a == 'abc'
+    - name: condition on strings2
+        ansible.builtin.debug:
+          msg: strings contion is not true
+        when: a != 'abc'
