@@ -14,6 +14,7 @@
       ansible.builtin.debug:
         msg: strings contion is not true
       when: a != "abc"
+      ## strings should be in quotes in when condition
     - name: condition on numbers1
       ansible.builtin.debug:
         msg: numbers contion is true
@@ -26,3 +27,12 @@
       ansible.builtin.debug:
         msg: numbers contion is true
       when: b <= 20
+
+    - name: boolean operations
+      ansible.builtin.debug:
+        msg: C is True
+      when: c
+    - name: boolean operations
+      ansible.builtin.debug:
+        msg: D is False
+      when: d
