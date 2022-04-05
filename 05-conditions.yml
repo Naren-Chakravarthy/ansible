@@ -3,7 +3,7 @@
   vars:
     a: abc
   tasks:
-    - name: conditions1
+    - name: condition on strings
       ansible.builtin.debug:
-        msg: a is equal to abc
-      when: a = abc
+        msg: strings contion is true
+      when: a == abc
