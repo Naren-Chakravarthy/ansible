@@ -2,12 +2,27 @@
   hosts: localhost
   vars:
     a: abc
+    b: 10
+    c: true
+    d: false
   tasks:
     - name: condition on strings1
       ansible.builtin.debug:
         msg: strings contion is true
-      when: a == 'abc'
+      when: a == "abc"
     - name: condition on strings2
         ansible.builtin.debug:
           msg: strings contion is not true
-        when: a != 'abc'
+        when: a != "abc"
+    - name: condition on numbers1
+        ansible.builtin.debug:
+          msg: numbers contion is true
+        when: b == 10
+    - name: condition on numbers2
+        ansible.builtin.debug:
+          msg: numbers contion is not true
+        when: b == 5
+    - name: condition on numbers3
+        ansible.builtin.debug:
+          msg: numbers contion is true
+        when: b <= 20
