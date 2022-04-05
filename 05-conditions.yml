@@ -1,0 +1,9 @@
+- name: Demo on Conditions
+  hosts: localhost
+  vars:
+    a = abc
+  - name: conditions1
+    ansible.builtin.debug:
+      msg: a is equal to abc
+    when: a = abc
+  
