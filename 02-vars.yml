@@ -16,6 +16,9 @@
     - name: print URL
       ansible.builtin.debug:
         msg: URL={{URL}}
+    - name: print DEMO
+      ansible.builtin.debug:
+        msg: DEMO={{DEMO}}
 
 - name: task level variables
   hosts: all
@@ -30,8 +33,30 @@
 - name: inventory level variables
   hosts: all
   tasks:
-    - name: print URL
+    - name: print Website
       ansible.builtin.debug:
-        msg: URL={{URL}}
+        msg: Website={{website}}
+
+- name: Fact variables
+  hosts: all
+  tasks:
+    - name: print host name
+      ansible.builtin.debug:
+        msg: Architecture = {{ansible_architecture}}, IP Address = {{ansible_eth0.ipv4.address}}
+
+- name: Register Variables
+  hosts: all
+  tasks:
+    - name: Run a shell command
+      ansible.builtin.shell: uptime
+      register: OUT
+
+    - name: Set a fact
+      ansible.builtin.set_fact:
+        OUTPUT: "{{OUT.stdout}}"
+
+    - name: print output of shell command
+      ansible.builtin.debug:
+        msg: "{{OUTPUT}}"
 
 

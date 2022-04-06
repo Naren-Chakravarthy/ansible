@@ -1,1 +1,12 @@
-172.31.27.108 URL=hosts.examle.com
+[FRONTEND]
+frontend.roboshop.internal
+[MONGODB]
+mongodb.roboshop.internal
+[CATALOGUE]
+catalogue.roboshop.internal
+[REDIS]
+redis.roboshop.internal
+[USER]
+user.roboshop.internal
+[CART]
+cart.roboshop.internal
