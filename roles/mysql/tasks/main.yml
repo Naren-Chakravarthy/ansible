@@ -23,6 +23,11 @@
  ignore_errors: yes
  register: check_pass
 
+- name: Check if new password is working
+  ansible.builtin.shell: echo "show databases" | mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}"
+  register: check_pass
+  ignore_errors: yes
+
 - name: Password Change Block
   when: check_pass.failed
   block:
@@ -37,11 +42,6 @@
 
     - name: Change Default password
       ansible.builtin.shell: mysql --connect-expired-password -uroot -p"{{mysql_output.stdout}}" </tmp/pass.sql
-
-- name: Check if new password is working
-  shell: echo "show databases" | mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}"
-  register: check_pass
-  ignore_errors: yes
 
 - name: Download and Extract {{COMPONENT}} content
   include_role:
