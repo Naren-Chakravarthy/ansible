@@ -15,13 +15,13 @@
     name: mysqld
     state: started
 
-- name: Check if new password is working
-  mysql_info:
-    login_user: root
-    login_password: "{{MYSQL_NEW_PASSWORD}}"
-    filter: databases
-  ignore_errors: yes
-  register: check_pass
+#- name: Check if new password is working
+#  mysql_info:
+#    login_user: root
+#    login_password: "{{MYSQL_NEW_PASSWORD}}"
+#    filter: databases
+#  ignore_errors: yes
+#  register: check_pass
 
 - name: Check if new password is working
   ansible.builtin.shell: echo "show databases" | mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}"
