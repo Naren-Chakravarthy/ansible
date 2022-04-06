@@ -1,0 +1,52 @@
+- name: Copy YUM Repos
+  ansible.builtin.copy:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mysql.repo
+
+- name: Install mysql and python
+  ansible.builtin.yum:
+     name:
+       - mysql-community-server
+       - MySQL-python
+     state: installed
+
+- name: start mysql server
+  ansible.builtin.systemd:
+    name: mysqld
+    state: started
+
+- name: Check if new password is working
+  mysql_info:
+    login_user: root
+    login_password: "{{MYSQL_NEW_PASSWORD}}"
+    filter: databases
+ ignore_errors: yes
+ register: check_pass
+
+- name: Password Change Block
+  when: check_pass.failed
+  block:
+    - name: Find the temporary password
+      ansible.builtin.shell: grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'
+      register: mysql_output
+
+    - name: Copy Password Reset SQL
+      ansible.builtin.template:
+        src: pass-reset.sql
+        dest: /tmp/pass.sql
+
+    - name: Change Default password
+      ansible.builtin.shell: mysql --connect-expired-password -uroot -p"{{mysql_output.stdout}}" </tmp/pass.sql
+
+- name: Check if new password is working
+  shell: echo "show databases" | mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}"
+  register: check_pass
+  ignore_errors: yes
+
+- name: Download and Extract {{COMPONENT}} content
+  include_role:
+    name: common
+    tasks_from: download
+
+- name: Load Schema
+  ansible.builtin.shell: mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}" </tmp/mysql-main/shipping.sql

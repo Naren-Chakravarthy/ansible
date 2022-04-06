@@ -1,0 +1,3 @@
+COMPONENT: mysql
+MYSQL_NEW_PASSWORD: RoboShop@1
+APPTYPE: db
