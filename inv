@@ -12,4 +12,6 @@ user.roboshop.internal
 cart.roboshop.internal
 [MYSQL]
 mysql.roboshop.internal
+[SHIPPING]
+shipping.roboshop.internal
 
