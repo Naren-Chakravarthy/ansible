@@ -14,4 +14,31 @@
   ansible.builtin.systemd:
      name: mysqld
      state: started
-     enabled: yes
+
+- name: Check if new password is working
+  shell: echo "show databases" | mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}"
+  register: check_pass
+  ignore_errors: yes
+
+- name: Password Change Block
+  when: check_pass.failed
+  block:
+    - name: Find the temporary password
+      ansible.builtin.shell: grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'
+      register: mysql_output
+
+    - name: Copy Password Reset SQL
+      ansible.builtin.template:
+        src: pass-reset.sql
+        dest: /tmp/pass.sql
+
+    - name: Change Default password
+      ansible.builtin.shell: mysql --connect-expired-password -uroot -p"{{mysql_output.stdout}}" </tmp/pass.sql
+
+- name: Download and Extract {{COMPONENT}} content
+  include_role:
+    name: common
+    tasks_from: download
+
+- name: Load Schema
+  ansible.builtin.shell: mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}" </tmp/mysql-main/shipping.sql
