@@ -20,11 +20,17 @@
   ansible.builtin.debug:
     msg: "{{APP_USER_REGISTER}}"
 
-- name: Ensure SELinux is set to enforcing mode
+- name: Update userid in app config
   ansible.builtin.lineinfile:
-    path: /etc/selinux/config
-    regexp: '^SELINUX='
-    line: SELINUX=enforcing
+    path: /home/roboshop/{{COMPONENT}}/{{COMPONENT}}.ini
+    regexp: '^uid'
+    line: uid = {{APP_USER_REGISTER.uid}}
+
+- name: Update groupid in app config
+  ansible.builtin.lineinfile:
+    path: /home/roboshop/{{COMPONENT}}/{{COMPONENT}}.ini
+    regexp: '^gid'
+    line: gid = {{APP_USER_REGISTER.group}}
 
 
 - name: copy SystemD file
