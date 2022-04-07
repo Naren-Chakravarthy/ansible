@@ -1,0 +1,47 @@
+
+#    ```
+#
+#    1. Install the dependencies
+#
+#    ```bash
+#    # cd /home/roboshop/payment
+#    # pip3 install -r requirements.txt
+#    ```
+#
+#  **Note: Above command may fail with permission denied, So run as root user**
+#
+#    1. Update the roboshop user and group id in `payment.ini` file.
+#    2. Update SystemD service file
+#
+#    Update `CARTHOST` with cart server ip
+#
+#    Update `USERHOST` with user server ip
+#
+#    Update `AMQPHOST` with RabbitMQ server ip.
+#
+#    3. Setup the service
+#
+#    ```sql
+#    # mv /home/roboshop/payment/systemd.service /etc/systemd/system/payment.service
+#    # systemctl daemon-reload
+#    # systemctl enable payment
+#    # systemctl start payment
+#    ```
+
+- name: Install Python
+  ansible.builtin.yum:
+    name:
+      - python36
+      - gcc
+      - python3-devel
+    state: installed
+
+- name: Setup and Download and Extract {{COMPONENT}} content
+  include_role:
+    name: common
+    tasks_from: download
+
+- name: Install NODEJS dependencies
+  community.general.npm:
+    path: /home/roboshop/{{COMPONENT}}
+  become_user: roboshop
