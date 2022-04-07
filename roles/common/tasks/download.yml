@@ -3,7 +3,7 @@
   ansible.builtin.user:
     name: roboshop
     comment: RoboShop Project Application user
-    register: APP_USER_REGISTER
+  register: APP_USER_REGISTER
 
 - name: Download and Extract {{COMPONENT}}
   ansible.builtin.unarchive:
