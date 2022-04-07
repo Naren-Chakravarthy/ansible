@@ -28,20 +28,7 @@
 #    # systemctl start payment
 #    ```
 
-- name: Install Python
-  ansible.builtin.yum:
-    name:
-      - python36
-      - gcc
-      - python3-devel
-    state: installed
-
-- name: Setup and Download and Extract {{COMPONENT}} content
+- name: Python App setup
   include_role:
     name: common
-    tasks_from: download
-
-- name: Install NODEJS dependencies
-  community.general.npm:
-    path: /home/roboshop/{{COMPONENT}}
-  become_user: roboshop
+    tasks_from: python

@@ -1,0 +1,29 @@
+- name: Install Python3
+  ansible.builtin.yum:
+    name:
+      - python36
+      - gcc
+      - python3-devel
+    state: installed
+
+- name: Setup and Download and Extract {{COMPONENT}} content
+  include_role:
+    name: common
+    tasks_from: download
+
+- name: Install Python dependencies
+  pip:
+    name: /home/roboshop/{{COMPONENT}}/requirements.txt
+    executable: pip3
+
+- name: copy SystemD file
+  ansible.builtin.copy:
+    src: systemd.service
+    dest: /etc/systemd/system/{{COMPONENT}}.service
+
+- name: Start {{COMPONENT}} service
+  ansible.builtin.systemd:
+    name: "{{COMPONENT}}"
+    state: started
+    enabled: yes
+    daemon_reload: yes
