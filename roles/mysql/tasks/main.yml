@@ -1,52 +1,72 @@
-- name: Copy YUM Repos
+- name: Copy MySQL repo file
   ansible.builtin.copy:
     src: mysql.repo
     dest: /etc/yum.repos.d/mysql.repo
 
-- name: Install mysql and python
+- name: Install MySQL Server
   ansible.builtin.yum:
-     name:
-       - mysql-community-server
-       - MySQL-python
-     state: installed
+    name:
+      - mysql-community-server
+      - MySQL-python
+    state: installed
 
-- name: start mysql server
+- name: Start MySQL Service
   ansible.builtin.systemd:
     name: mysqld
     state: started
+    enabled: yes
 
-#- name: Check if new password is working
-#  mysql_info:
-#    login_user: root
-#    login_password: "{{MYSQL_NEW_PASSWORD}}"
-#    filter: databases
-#  ignore_errors: yes
-#  register: check_pass
+- name: Check the DB Password by Collecting Information
+  community.mysql.mysql_info:
+    login_user: root
+    login_password: RoboShop@1
+  ignore_errors: yes
+  register: mysql_stat
 
-- name: Check if new password is working
-  ansible.builtin.shell: echo "show databases" | mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}"
-  register: check_pass
+- name: Reset Password Block
+  when: mysql_stat.failed
+  block:
+    - name: Grab Default Password of MySQL
+      ansible.builtin.shell: grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'
+      register: DEFAULT_ROOT_PASSWORD
+
+    - name: Copy the SQL Password Reset file
+      ansible.builtin.copy:
+        src: rootpass.sql
+        dest: /tmp/rootpass.sql
+
+    - name: Reset MySQL Password
+      ansible.builtin.shell: mysql --connect-expired-password -uroot -p"{{DEFAULT_ROOT_PASSWORD.stdout}}" </tmp/rootpass.sql
+
+- name: Check the validate password plugin is removed
+  ansible.builtin.shell: echo show plugins | mysql -uroot -pRoboShop@1  | grep validate_password
+  register: PLUGIN_INFO
   ignore_errors: yes
 
-- name: Password Change Block
-  when: check_pass.failed
+- name: Uninstall Password Validate Plugin
+  when: PLUGIN_INFO.rc == 0
   block:
-    - name: Find the temporary password
-      ansible.builtin.shell: grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'
-      register: mysql_output
+    - name: Copy SQL file to uninstall plugin
+      ansible.builtin.copy:
+        src: pass-validate.sql
+        dest: /tmp/pass-validate.sql
+    - name: Uninstall Plugin
+      community.mysql.mysql_db:
+        state: import
+        name: all
+        target: /tmp/pass-validate.sql
+        login_user: root
+        login_password: RoboShop@1
 
-    - name: Copy Password Reset SQL
-      ansible.builtin.template:
-        src: pass-reset.sql
-        dest: /tmp/pass.sql
-
-    - name: Change Default password
-      ansible.builtin.shell: mysql --connect-expired-password -uroot -p"{{mysql_output.stdout}}" </tmp/pass.sql
-
-- name: Download and Extract {{COMPONENT}} content
+- name: Download and Extract MySQL
   include_role:
     name: common
     tasks_from: download
 
 - name: Load Schema
-  ansible.builtin.shell: mysql -uroot -p"{{MYSQL_NEW_PASSWORD}}" </tmp/mysql-main/shipping.sql
+  community.mysql.mysql_db:
+    state: import
+    name: all
+    target: /tmp/mysql-main/shipping.sql
+    login_user: root
+    login_password: RoboShop@1
