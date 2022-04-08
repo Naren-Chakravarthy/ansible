@@ -1,0 +1,8 @@
+- name: Demo on filters
+  hosts: localhost
+  vars:
+    a: abc
+  tasks:
+    - name: Convert case of string
+      ansible.builtin.debug:
+        msg: "{{a | upper}}"
