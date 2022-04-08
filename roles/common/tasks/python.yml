@@ -16,10 +16,6 @@
     requirements: /home/roboshop/{{COMPONENT}}/requirements.txt
     executable: pip3
 
-- name: Print
-  ansible.builtin.debug:
-    msg: "{{APP_USER_REGISTER}}"
-
 - name: Update userid in app config
   ansible.builtin.lineinfile:
     path: /home/roboshop/{{COMPONENT}}/{{COMPONENT}}.ini
@@ -32,15 +28,7 @@
     regexp: '^gid'
     line: gid = {{APP_USER_REGISTER.group}}
 
-
-- name: copy SystemD file
-  ansible.builtin.copy:
-    src: systemd.service
-    dest: /etc/systemd/system/{{COMPONENT}}.service
-
-- name: Start {{COMPONENT}} service
-  ansible.builtin.systemd:
-    name: "{{COMPONENT}}"
-    state: started
-    enabled: yes
-    daemon_reload: yes
+- name: Setup SyetemD
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd
