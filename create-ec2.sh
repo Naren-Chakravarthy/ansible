@@ -18,7 +18,8 @@ create_ec2() {
   aws route53 change-resource-record-sets --hosted-zone-id ${ZONE_ID} --change-batch file:///tmp/record.json | jq
 }
 
-AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Practice" | jq '.Images[].ImageId' | sed -e 's/"//g')
+##AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Practice" | jq '.Images[].ImageId' | sed -e 's/"//g')
+AMI_ID="ami-01493c65a36d94b0a"
 SG_ID=$(aws ec2 describe-security-groups --filters "Name=group-name,Values=allow all traffic from public" | jq ".SecurityGroups[].GroupId" | sed -e 's/"//g')
 if [ "$1" == "all" ]; then
   for component in frontend catalogue user mondodb redis cart rabbitmq mysql shipping payment dispatch; do
