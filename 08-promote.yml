@@ -3,4 +3,4 @@
   tasks:
     - name: Print ENV
       ansible.builtin.debug:
-        msg: Environment == {{ENV}}
+        msg: Env == {{ENV}}
