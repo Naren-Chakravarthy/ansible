@@ -15,7 +15,7 @@ pipeline {
       when { branch pattern: "ROB-.*", comparator: "REGEXP"}
       steps {
        echo "Ansible Style Checks"
-        // We will find the right tool.
+        
       }
     }
 
