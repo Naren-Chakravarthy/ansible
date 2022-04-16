@@ -32,7 +32,7 @@ pipeline {
       when { branch 'main' }
       steps {
         sh 'env'
-        sh 'echo MAIN'
+        //sh 'echo MAIN'
       }
     }
 
