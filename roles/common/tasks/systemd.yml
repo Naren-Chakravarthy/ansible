@@ -4,8 +4,9 @@
     dest: /etc/systemd/system/{{COMPONENT}}.service
 
 - name: Start {{COMPONENT}} Service
+  ignore_errors: "{{CHECK_MODE}}"
   ansible.builtin.systemd:
     name: "{{COMPONENT}}"
-    state: started
+    state: restarted
     enabled: yes
     daemon_reload: yes

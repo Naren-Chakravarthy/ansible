@@ -9,11 +9,11 @@
     name: common
     tasks_from: download
 
-#- name: Cleanup old HTML Content
-#  ansible.builtin.file:
-#    path: /usr/share/nginx/html
-#    state: absent
-#
+- name: Cleanup old HTML Content
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: absent
+
 #- name: Copy the frontend content to nginx path
 #  ansible.builtin.copy:
 #    src: /tmp/frontend-main/static/
@@ -27,6 +27,7 @@
   notify: Restart Nginx
 
 - name: Start Nginx
+  ignore_errors: "{{CHECK_MODE}}"
   ansible.builtin.systemd:
     name: nginx
     state: started
