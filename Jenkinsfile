@@ -35,8 +35,6 @@ pipeline {
         sh 'echo MAIN'
       }
     }
-
-
   }
 
   // Here we are hardcoding role_name as frontend as for demo purpose, But we need to understand which role has been really modified and we need to parse that
@@ -50,4 +48,4 @@ pipeline {
   //      }
   //    }
 
-  }
+}
