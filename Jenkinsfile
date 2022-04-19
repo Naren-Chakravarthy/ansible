@@ -7,6 +7,7 @@ pipeline {
 
   environment {
     SSH = credentials('SSH')
+    GIT = credentials('GitHub token')
   }
 
   stages {
@@ -32,9 +33,11 @@ pipeline {
       when { branch 'main' }
       steps {
         dir ("CODE") {
-        git branch: 'main', url: 'https://github.com/Naren-Chakravarthy/ansible.git'
+        git branch: 'main',url:"https://${GIT_USR}:${GIT_PSW}@github.com/Naren-Chakravarthy/ansible.git"
         sh '''
-          bash /tmp/sort
+          TAG = $(bash /tmp/sort)
+          git tag ${TAG}
+          git push --tags
           env
         '''
         }
