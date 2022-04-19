@@ -32,7 +32,10 @@ pipeline {
       when { branch 'main' }
       steps {
         sh '''
-          bash /tmp/sort
+          git tag -l
+          ls -l
+          pwd
+          #bash /tmp/sort
           env
          '''
       }
