@@ -29,11 +29,10 @@ pipeline {
     }
 
     stage ('TAG') {
-      when {
-        expression { env.TAG_NAME != null }
-      }
+      when { branch 'main' }
       steps {
         sh '''
+          bash /tmp/sort
           env
          '''
       }
