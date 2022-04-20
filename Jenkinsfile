@@ -35,7 +35,7 @@ pipeline {
         dir ("CODE") {
         git branch: 'main', url: "https://${GIT_USR}:${GIT_PSW}@github.com/Naren-Chakravarthy/ansible.git"
         sh '''
-          TAG = $(bash /tmp/sort)
+          TAG=$(cat VERSIONS.md | head -1 | sed -e 's/# //')
           git tag ${TAG}
           git push --tags
           env
