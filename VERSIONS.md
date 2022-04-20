@@ -1,3 +1,5 @@
+# 2.0.2
+- CI full multibranch pipeline
 # 2.0.1
 - Made some changes to ansible
 # 2.0.0
