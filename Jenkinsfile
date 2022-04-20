@@ -33,7 +33,8 @@ pipeline {
       when { branch 'main'}
       steps {
         dir('CODE') {
-          git branch: 'main', url: "https://${GIT_USR}:${GIT_PSW}@https://github.com/Naren-Chakravarthy/ansible.git"
+          git branch: 'main', credentialsId: 'GitHub token ', url: 'https://github.com/Naren-Chakravarthy/ansible.git'
+//           git branch: 'main', url: "https://${GIT_USR}:${GIT_PSW}@https://github.com/Naren-Chakravarthy/ansible.git"
           sh '''
             TAG=$(cat VERSIONS.md | head -1 | sed -e 's/# //')
             git tag $TAG
