@@ -7,7 +7,7 @@ pipeline {
 
   environment {
     SSH = credentials('SSH')
-    GIT = credentials('GitHubToken')
+    GIT = credentials('GitHub token')
   }
 
   stages {
