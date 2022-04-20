@@ -39,7 +39,6 @@ pipeline {
             TAG=$(cat VERSIONS.md | head -1 | sed -e 's/# //')
             git tag $TAG
             git push --tags
-            env
           '''
         }
       }
